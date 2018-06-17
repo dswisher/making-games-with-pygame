@@ -4,7 +4,7 @@ import sys
 
 pygame.init()
 
-FPS = 30    # frames per second setting
+FPS = 60    # frames per second setting
 fpsClock = pygame.time.Clock()
 
 # set up the window
@@ -17,24 +17,31 @@ catImg = pygame.image.load(catPath)
 catx = 10
 caty = 10
 direction = 'right'
+catVel = 3
+
+
+def quit():
+    pygame.quit()
+    sys.exit()
+
 
 while True:  # the main game loop
     DISPLAYSURF.fill(WHITE)
 
     if direction == 'right':
-        catx += 5
+        catx += catVel
         if catx == 280:
             direction = 'down'
     elif direction == 'down':
-        caty += 5
+        caty += catVel
         if caty == 220:
             direction = 'left'
     elif direction == 'left':
-        catx -= 5
+        catx -= catVel
         if catx == 10:
             direction = 'up'
     elif direction == 'up':
-        caty -= 5
+        caty -= catVel
         if caty == 10:
             direction = 'right'
 
@@ -42,8 +49,10 @@ while True:  # the main game loop
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            quit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                quit()
 
     pygame.display.update()
     fpsClock.tick(FPS)
